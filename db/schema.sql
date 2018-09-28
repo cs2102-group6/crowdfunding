@@ -18,23 +18,6 @@ CREATE TABLE keywords (
 	word VARCHAR(64) PRIMARY KEY
 );
 
-CREATE TABLE images (
-	id SERIAL PRIMARY KEY,
-	filename VARCHAR(64) NOT NULL
-);
-
-CREATE TABLE has_image (
-	project_id INT NOT NULL,
-	image_id INT UNIQUE NOT NULL,
-	PRIMARY KEY (project_id, image_id),
-	FOREIGN KEY (project_id)
-		REFERENCES projects(id)
-		ON DELETE CASCADE,
-	FOREIGN KEY (image_id)
-		REFERENCES images(id)
-		ON DELETE CASCADE
-);
-
 CREATE TABLE funds (
 	amount NUMERIC(16, 2) NOT NULL CHECK (amount > 0),
 	project_id INT NOT NULL,
