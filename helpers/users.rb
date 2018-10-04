@@ -16,7 +16,7 @@ module Users
     def find_user
         $db.exec(
             "SELECT * FROM users
-           WHERE email=#{params[:email]} AND password=#{params[:password]}"
+           WHERE email=#{params[:email]}"
         )
     end
 
