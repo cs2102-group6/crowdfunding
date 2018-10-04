@@ -1,17 +1,24 @@
-CREATE TABLE projects (
-	id SERIAL PRIMARY KEY,
-	title VARCHAR(256) UNIQUE NOT NULL,
-	description VARCHAR(1024),
-	start_date TIMESTAMP NOT NULL,
-	end_date TIMESTAMP NOT NULL CHECK (end_date > start_date),
-	goal NUMERIC(16, 2) NOT NULL CHECK (goal > 0)
-);
-
 CREATE TABLE users (
 	email VARCHAR(256) PRIMARY KEY,
 	first_name VARCHAR(256) NOT NULL,
 	last_name VARCHAR(256) NOT NULL,
+    password VARCHAR(256) NOT NULL,
 	is_admin BOOLEAN NOT NULL
+);
+
+CREATE TABLE projects (
+	id SERIAL PRIMARY KEY,
+	title VARCHAR(256) NOT NULL,
+	description VARCHAR(1024),
+	start_date TIMESTAMP NOT NULL,
+	end_date TIMESTAMP NOT NULL CHECK (end_date > start_date),
+	goal NUMERIC NOT NULL CHECK (goal > 0),
+    creator_email VARCHAR(256),
+    status VARCHAR(16) CHECK (status='ongoing' OR status='closed'),
+    FOREIGN KEY (creator_email)
+        REFERENCES users(email)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE keywords (
@@ -25,24 +32,12 @@ CREATE TABLE funds (
 	PRIMARY KEY (project_id, user_email),
 	FOREIGN KEY (project_id)
 		REFERENCES projects(id)
+        ON UPDATE CASCADE
 		ON DELETE CASCADE,
 	FOREIGN KEY (user_email)
 		REFERENCES users(email)
 		ON UPDATE CASCADE
-		ON DELETE CASCADE
-);
-
-CREATE TABLE created_by (
-	user_email VARCHAR(256) NOT NULL,
-	project_id INT UNIQUE NOT NULL,
-	PRIMARY KEY (user_email, project_id),
-	FOREIGN KEY (project_id)
-		REFERENCES projects(id)
-		ON DELETE CASCADE,
-	FOREIGN KEY (user_email)
-		REFERENCES users(email)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE
+        ON DELETE CASCADE
 );
 
 CREATE TABLE has_keyword (
@@ -51,9 +46,10 @@ CREATE TABLE has_keyword (
 	PRIMARY KEY (keyword, project_id),
 	FOREIGN KEY (keyword)
 		REFERENCES keywords(word)
-		ON UPDATE CASCADE
-		ON DELETE CASCADE,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
 	FOREIGN KEY (project_id)
 		REFERENCES projects(id)
-		ON DELETE CASCADE
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 );
