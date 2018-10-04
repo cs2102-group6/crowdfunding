@@ -1,34 +1,56 @@
 require 'sinatra'
 require 'pg'
 
+# Require your files here
+require_relative './helpers/users.rb'
+require_relative './helpers/utils.rb'
+
+# Register your modules here to make their methods available for use
+helpers Users, Utils
+
+enable :sessions
+
 dbconfig = {
-    dbname: 'crowdfunding',
+    dbname: 'postgres',
     host: 'localhost',
     port: '5432',
     user: 'postgres',
     password: 'password'
 }
-db = PG::Connection.open(dbconfig)
+$db = PG::Connection.open(dbconfig)
+
+before do
+    process_input(params)
+end
+
+error 401 do
+    # Display login page if we send HTTP 401 Not Authorized to the user
+    erb :login
+end
 
 get '/' do
+    # Require user to be authenticated to access the homepage
+    require_authenticated # Method defined in ./helpers/utils.rb
+
+    # Fetch ALL the projects
+    # Check ./views/index.erb to see how to display the result
+    @res = $db.exec("SELECT * FROM projects") # Variables with @ can be accessed from the erb
     erb :index
 end
 
-post '/login' do
-      
-end
-
+# Login routes
 post '/register' do
-    # The params hash contains information in the post request
-    # params[:key] is the value where <input name="key"> in the view
-    email = params[:email]
-    password = params[:password]
-    first_name = params[:first_name]
-    last_name = params[:last_name]
-    res = db.exec(
-        "INSERT INTO users
-        (email, password, first_name, last_name, is_admin)
-        VALUES ('#{email}', '#{password}', '#{first_name}', '#{last_name}', false);"
-    )
+    create_user
     redirect '/'
 end
+
+post '/login' do
+    res = find_user
+    if res.values.length != 0 # User exists
+        session[:authenticated] = true
+        redirect '/'
+    end
+    halt 401
+end
+# End of login routes
+
