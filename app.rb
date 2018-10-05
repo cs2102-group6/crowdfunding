@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'pg'
 require 'bcrypt'
+require 'sinatra/flash'
 
 # Require your files here
 require_relative './helpers/users.rb'
@@ -39,7 +40,12 @@ end
 post '/register' do
     params[:password] = BCrypt::Password.create(params[:password]).to_s
     process_input(params)
-    create_user
+    begin
+        create_user
+        flash.next[:register] = 'Account successfully created'
+    rescue
+        flash.next[:register] = 'Something went wrong'
+    end
     redirect '/'
 end
 
@@ -59,7 +65,8 @@ post '/login' do
             redirect '/'
         end
     end
-    halt 401
+    flash.next[:login] = 'Incorrect email/password'
+    redirect '/'
 end
 # End of login routes
 
