@@ -36,6 +36,15 @@ get '/' do
     erb :index
 end
 
+get '/viewProjectDetails' do
+
+    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
+    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
+    erb :projectDetails
+end
+
+
 # Login routes
 post '/register' do
     params[:password] = BCrypt::Password.create(params[:password]).to_s
@@ -69,4 +78,5 @@ post '/login' do
     redirect '/'
 end
 # End of login routes
+
 
