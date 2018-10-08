@@ -37,7 +37,7 @@ get '/' do
 end
 
 get '/viewProjectDetails' do
-
+    require_authenticated
     @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
     @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
     @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
@@ -60,6 +60,7 @@ end
 
 post '/login' do
     input_password = params[:password]
+    email = params[:email]
     process_input(params)
 
     res = find_user
@@ -70,12 +71,25 @@ post '/login' do
 
         restored_password = BCrypt::Password.new(stored_hash)
         if restored_password == input_password
-            session[:authenticated] = true
+            session[:email] = email
             redirect '/'
         end
     end
     flash.next[:login] = 'Incorrect email/password'
     redirect '/'
+end
+
+post '/logout' do
+    session.clear
+    redirect '/login'
+end
+
+get '/login' do
+    if session[:email]
+        redirect '/'
+    else
+        erb :login 
+    end
 end
 # End of login routes
 

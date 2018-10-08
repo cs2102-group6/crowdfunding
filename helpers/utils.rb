@@ -16,7 +16,7 @@ module Utils
     # Sends HTTP 401 Not Authorized if not authenticated.
     # Call this method in routes that require the user to be authenticated.
     def require_authenticated
-        if !session[:authenticated]
+        if !session[:email]
             halt 401
         end
     end
