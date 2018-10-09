@@ -1,15 +1,13 @@
 module Projects
-    def create_project(email)
+    def create_project
             id=params[:id]
             title=params[:title]
             description=params[:description]
             start_date=params[:start_date]
             end_date=params[:end_date]
             goal=params[:goal]
-            creator_email=email
-            # creator_email=params[:creator_email]
+            creator_email=session[:email]
             status=params[:status]
-            puts creator_email
         $db.exec(
             "INSERT INTO projects
              VALUES (#{id}, '#{title}', '#{description}', '#{start_date}', '#{end_date}', #{goal}, '#{creator_email}', '#{status}');"

@@ -52,7 +52,7 @@ end
 
 post '/createSQLProj' do
     begin
-        create_project(session[:email])
+        create_project
         flash.next[:createSQLProj] = 'Project successfully created'
     rescue
         flash.next[:createSQLProj] = 'Unable to create project'
