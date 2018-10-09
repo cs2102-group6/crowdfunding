@@ -59,21 +59,18 @@ post '/contributeFunds' do
     redirect back
 end
 
-
-
-
-post '/createProject' do
+get '/createProject' do
     erb :projects
 end
 
 post '/createSQLProj' do
     begin
-        create_project(session[:email])
+        create_project
         flash.next[:createSQLProj] = 'Project successfully created'
     rescue
         flash.next[:createSQLProj] = 'Unable to create project'
     end
-    redirect back
+    redirect '/createProject'
 end
 
 get '/viewUserProjects' do
