@@ -6,9 +6,11 @@ require 'sinatra/flash'
 # Require your files here
 require_relative './helpers/users.rb'
 require_relative './helpers/utils.rb'
+require_relative './helpers/projects.rb'
+
 
 # Register your modules here to make their methods available for use
-helpers Users, Utils
+helpers Users, Utils, Projects
 
 enable :sessions
 
@@ -44,6 +46,24 @@ get '/viewProjectDetails' do
     erb :projectDetails
 end
 
+post '/createProject' do
+    erb :projects
+end
+
+post '/createSQLProj' do
+    begin
+        create_project(session[:email])
+        flash.next[:createSQLProj] = 'Project successfully created'
+    rescue
+        flash.next[:createSQLProj] = 'Unable to create project'
+    end
+end
+
+get '/viewUserProjects' do
+    require_authenticated
+    @details = $db.exec("SELECT * FROM projects WHERE creator_email=#{session[:email]}")
+    erb :projectDetails
+end
 
 # Login routes
 post '/register' do
@@ -92,5 +112,6 @@ get '/login' do
     end
 end
 # End of login routes
+
 
 

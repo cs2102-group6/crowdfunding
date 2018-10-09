@@ -1,0 +1,61 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <style>
+        h2 {
+            display: block;
+            font-size: 1.5em;
+            margin-top: 0.83em;
+            margin-bottom: 0.83em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        </style>
+
+        <h1>CROWDFUNDING!</h1>
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+
+        <h1>Create Project</h1>
+        <form method="POST" action="/createSQLProj">
+            <div>
+                <p>Project ID: </p>
+                <input type="number" name="id">
+            </div>
+            <div>
+                <p>Project Title: </p>
+                <input type="text" name="title">
+            </div>
+            <div>
+                <p>Project Description: </p>
+                <input type="text" name="description">
+            </div>
+            <div>
+                <p>Start Date: </p>
+                <input type="datetime-local" name="start_date">
+            </div>
+            <div>
+                <p>End Date: </p>
+                <input type="datetime-local" name="end_date">
+            </div>
+            <div>
+                <p>Goal: </p>
+                <input type="number" min="0" step="0.01" name="goal">
+            </div>
+            <div>
+                <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
+            </div>
+            <div>
+                <p>Status: </p>
+                <input type="text" name="status">
+            </div>
+            <input type="submit">
+            <p><%= flash[:createSQLProj] %></p>
+        </form>
+    </body>
+</html>
