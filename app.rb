@@ -6,9 +6,11 @@ require 'sinatra/flash'
 # Require your files here
 require_relative './helpers/users.rb'
 require_relative './helpers/utils.rb'
+require_relative './helpers/admins.rb'
+require_relative './helpers/projectDetails.rb'
 
 # Register your modules here to make their methods available for use
-helpers Users, Utils
+helpers Users, Utils, Admins, ProjectDetails
 
 enable :sessions
 
@@ -72,7 +74,12 @@ post '/login' do
         restored_password = BCrypt::Password.new(stored_hash)
         if restored_password == input_password
             session[:email] = email
-            redirect '/'
+            session[:isadmin] = res[0]['is_admin']
+            if res[0]['is_admin']
+                redirect '/admin'
+            else
+                redirect '/'
+            end
         end
     end
     flash.next[:login] = 'Incorrect email/password'
@@ -93,4 +100,51 @@ get '/login' do
 end
 # End of login routes
 
+#admin routes
+get '/admin' do
+    if session[:email]
+        if session[:isadmin]
+            erb :admin
+        else
+            erb :index
+        end
+    else
+        erb :login 
+    end
+end
+
+post '/createAdmin' do
+    params[:password] = BCrypt::Password.create(params[:password]).to_s
+    process_input(params)
+    begin
+        create_admin
+        flash.next[:createAdmin] = 'Account successfully created'
+    rescue
+        flash.next[:createAdmin] = 'An error occured!'
+    end
+    redirect '/admin'
+end
+
+get '/editProjectDetails' do
+    require_authenticated
+    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
+    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
+    erb :editProjectDetails
+end
+
+post '/updateProjectDetails' do
+    begin
+        update_project_details
+        flash.next[:updateProjectDetails] = 'Project details successfully update'
+    rescue
+        flash.next[:updateProjectDetails] = 'An error occured!'
+    end
+    redirect '/admin'
+end
+
+delete '/deleteProject' do
+
+end
+#End of admin routes
 
