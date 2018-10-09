@@ -2,15 +2,17 @@ require 'sinatra'
 require 'pg'
 require 'bcrypt'
 require 'sinatra/flash'
+require 'pry'
 
 # Require your files here
 require_relative './helpers/users.rb'
 require_relative './helpers/utils.rb'
 require_relative './helpers/projects.rb'
+require_relative './helpers/funds.rb'
 
 
 # Register your modules here to make their methods available for use
-helpers Users, Utils, Projects
+helpers Users, Utils, Projects, Funds
 
 enable :sessions
 
@@ -46,6 +48,20 @@ get '/viewProjectDetails' do
     erb :projectDetails
 end
 
+post '/contributeFunds' do  
+    begin     
+        create_funds
+        flash.next[:contributeFunds] = 'Project successfully funded'
+
+    rescue
+        flash.next[:contributeFunds] = 'Unable to fund project'
+    end
+    redirect back
+end
+
+
+
+
 post '/createProject' do
     erb :projects
 end
@@ -57,6 +73,7 @@ post '/createSQLProj' do
     rescue
         flash.next[:createSQLProj] = 'Unable to create project'
     end
+    redirect back
 end
 
 get '/viewUserProjects' do
