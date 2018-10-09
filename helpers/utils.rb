@@ -20,4 +20,10 @@ module Utils
             halt 401
         end
     end
+
+    def require_admin_authenticated
+        if !session[:email] && session[:isadmin] != 't'
+            halt 401
+        end
+    end
 end

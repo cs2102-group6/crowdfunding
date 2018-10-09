@@ -27,6 +27,7 @@
             <p><%= flash[:createAdmin] %></p>
         </form>
     
+    <a href="/">View All Projects</a>
         <br/>
         <br/>
         <form method="GET" action="/editProjectDetails">
@@ -35,6 +36,13 @@
             <button type="submit" >Edit</button>
         </form>
         <p><%= flash[:updateProjectDetails]%></p>
+
+        <form method="GET" action="/deleteProject">
+            <p>Enter Project Id to delete:</p>
+            <input type="text" name="id">
+            <button type="submit" >Delete</button>
+        </form>
+        <p><%= flash[:deleteProjectDetails]%></p>
 
     </body>
 </html>
