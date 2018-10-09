@@ -46,7 +46,7 @@ get '/viewProjectDetails' do
     erb :projectDetails
 end
 
-post '/createProject' do
+get '/createProject' do
     erb :projects
 end
 
@@ -57,6 +57,7 @@ post '/createSQLProj' do
     rescue
         flash.next[:createSQLProj] = 'Unable to create project'
     end
+    redirect '/createProject'
 end
 
 get '/viewUserProjects' do
