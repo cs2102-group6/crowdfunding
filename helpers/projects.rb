@@ -48,6 +48,28 @@ module Projects
             WHERE id=#{id}"
         ) 
     end
+
+    def admin_update_project
+        # title=params[:title]
+        # description=params[:description]
+        # start_date=params[:start_date]
+        # end_date=params[:end_date]
+        # goal=params[:goal]
+        # status=params[:status]
+        # id=id
+
+        # binding.pry
+        $db.exec(
+            "UPDATE projects SET 
+            title='#{params[:title]}',
+            description='#{params[:description]}',
+            start_date='#{params[:start_date]}',
+            end_date='#{params[:end_date]}',
+            goal=#{params[:goal]},
+            status='#{params[:status]}'
+            WHERE id=#{params[:id]}"
+        ) 
+    end
     
 end
 

@@ -19,10 +19,6 @@
       <form method="POST" action="/updateProjectDetails">
         <% @details.each do |row| %>
         <% @currentAmt.each do |row2| %>
-          <tr>
-          <td><%= row['id'] %></td>
-          <td><%= row['start_date']%></td>
-          </tr>
          <div class="row">
             <div class="column"> 
                Project Title:

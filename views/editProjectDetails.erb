@@ -21,7 +21,7 @@
             <% @details.each do |row| %>
             <% @currentAmt.each do |row2| %>
             <% @user.each do |row3| %>
-            <form method="POST" action="/updateProjectDetails">
+            <form method="POST" action="/adminUpdatenProjectDetails">
                 <tr>
                     <th>Id</th>
                     <td><input type="number" value="<%= row['id'] %>" name="projectd" disabled/><input type="number" value="<%= row['id'] %>" name="id" style="display: none"/></td>

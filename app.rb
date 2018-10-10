@@ -60,7 +60,8 @@ post '/contributeFunds' do
 end
 
 get '/createProject' do
-    erb :projects
+    require_authenticated
+    erb :createProject
 end
 
 # Call SQL to create project in db
@@ -207,10 +208,10 @@ get '/editProjectDetails' do
     erb :editProjectDetails
 end
 
-post '/updateProjectDetails' do
+post '/adminUpdatenProjectDetails' do
     require_admin_authenticated
     begin
-        update_project
+        admin_update_project
         flash.next[:updateProjectDetails] = 'Project details successfully update'
     rescue
         flash.next[:updateProjectDetails] = 'An error occured!'
