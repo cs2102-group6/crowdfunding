@@ -117,6 +117,7 @@ post '/updateProjectDetails' do
         session.delete(:projectId)
         flash.next[:updateProjectDetails] = 'Unable to update project'
     end
+    redirect '/'
 end
 
 # Login routes
