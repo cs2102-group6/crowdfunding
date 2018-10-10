@@ -2,15 +2,17 @@ require 'sinatra'
 require 'pg'
 require 'bcrypt'
 require 'sinatra/flash'
+require 'pry'
 
 # Require your files here
 require_relative './helpers/users.rb'
 require_relative './helpers/utils.rb'
 require_relative './helpers/projects.rb'
+require_relative './helpers/funds.rb'
 
 
 # Register your modules here to make their methods available for use
-helpers Users, Utils, Projects
+helpers Users, Utils, Projects, Funds
 
 enable :sessions
 
@@ -46,8 +48,19 @@ get '/viewProjectDetails' do
     erb :projectDetails
 end
 
+post '/contributeFunds' do  
+    begin     
+        create_funds
+        flash.next[:contributeFunds] = 'Project successfully funded'
+
+    rescue
+        flash.next[:contributeFunds] = 'Unable to fund project'
+    end
+    redirect back
+end
+
 get '/createProject' do
-    erb :createProject
+    erb :projects
 end
 
 # Call SQL to create project in db
@@ -133,7 +146,12 @@ post '/login' do
         restored_password = BCrypt::Password.new(stored_hash)
         if restored_password == input_password
             session[:email] = email
-            redirect '/'
+            session[:isadmin] = res[0]['is_admin']
+            if res[0]['is_admin'] == 't'
+                redirect '/admin'
+            else
+                redirect '/'
+            end
         end
     end
     flash.next[:login] = 'Incorrect email/password'
@@ -154,5 +172,61 @@ get '/login' do
 end
 # End of login routes
 
+#admin routes
+get '/admin' do
+    if session[:email]
+        if session[:isadmin] == 't'
+            erb :admin
+        else
+            redirect "/"
+        end
+    else
+        redirect "/login"
+    end
+end
+
+post '/createAdmin' do
+    require_admin_authenticated
+    params[:password] = BCrypt::Password.create(params[:password]).to_s
+    process_input(params)
+    begin
+        create_admin
+        flash.next[:createAdmin] = 'Account successfully created'
+    rescue
+        flash.next[:createAdmin] = 'An error occured!'
+    end
+    redirect '/admin'
+end
+
+get '/editProjectDetails' do
+    require_admin_authenticated
+    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
+    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
+    erb :editProjectDetails
+end
+
+post '/updateProjectDetails' do
+    require_admin_authenticated
+    begin
+        update_project
+        flash.next[:updateProjectDetails] = 'Project details successfully update'
+    rescue
+        flash.next[:updateProjectDetails] = 'An error occured!'
+    end
+    redirect '/admin'
+end
+
+get '/deleteProject' do
+    require_admin_authenticated
+    begin
+        delete_project
+        flash.next[:deleteProjectDetails] = 'Project details successfully deleted'
+    rescue
+        flash.next[:deleteProjectDetails] = 'An error occured!'
+    end
+    redirect '/admin'
+end
+#End of admin routes
 
 

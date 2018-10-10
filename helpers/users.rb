@@ -26,5 +26,19 @@ module Users
             WHERE email=#{params[:email]}"
         ) 
     end
+
+    def create_admin
+        email = params[:email]
+        password = params[:password]
+        first_name = params[:first_name]
+        last_name = params[:last_name]
+        is_admin = true
+      
+        $db.exec(
+            "INSERT INTO users
+             (email, password, first_name, last_name, is_admin)
+             VALUES (#{email}, #{password}, #{first_name}, #{last_name}, #{is_admin});"
+        )
+    end
 end
 

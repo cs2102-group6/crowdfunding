@@ -1,0 +1,85 @@
+<html>
+    <body>
+        <h1>CROWDFUNDING!</h1>
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+        
+    <style>
+    th, td {
+    padding: 15px;
+    text-align: middle;
+    border-bottom: 1px solid #ddd;
+}
+    th {
+        width: 200px;
+    }
+}
+</style>
+
+        <table id = "t01" align ="center" style="width:100%">
+            <% @details.each do |row| %>
+            <% @currentAmt.each do |row2| %>
+            <% @user.each do |row3| %>
+            <form method="POST" action="/updateProjectDetails">
+                <tr>
+                    <th>Id</th>
+                    <td><input type="number" value="<%= row['id'] %>" name="projectd" disabled/><input type="number" value="<%= row['id'] %>" name="id" style="display: none"/></td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td><input type="text" value="<%= row['title'] %>" name="title"/></td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td><input type="text" value="<%= row['description'] %>" name="description"/></td>
+            
+                </tr>
+                <tr>
+                    <th>Current Amount</th>
+                    <td><input type="text" value="<%= row2['sum'] %>" name="sum" disabled/></td>
+                </tr>
+                <tr>
+                    <th>Goal</th>
+                    <td><input type="number" value="<%= row['goal'] %>" name="goal"/></td>
+        
+                </tr>
+                <tr>
+                    <th>Start Date</th>
+                    <td><input type="text" value="<%= row['start_date'] %>" name="start_date"/></td>
+            
+                </tr>
+                <tr>
+                    <th>End Date</th>
+                    <td><input type="text" value="<%= row['end_date'] %>" name="end_date"/></td>
+                </tr>
+
+                <tr>
+                    <th>Created by</th>
+                    <td><input type="text" value="<%= row['creator_email'] %>" name="creator_email" disabled/></td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td><input type="text" value="<%= row['status'] %>" name="status"/></td>
+                </tr>
+
+                <% end %>
+                <% end %>
+                <% end %>
+                <tr>
+                    <th></th>
+                    <td><input style="float:right" type="submit" ></td>
+                </tr>
+            
+            </form>
+        </table>
+        <p><%= flash[:updateProjectDetails] %></p>
+        <br>
+        <br>
+        <div style="text-align:right; width:100%; padding:0;">
+        
+    </div>
+
+    </body>
+</html>
+

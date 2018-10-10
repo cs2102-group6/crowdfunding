@@ -1,0 +1,49 @@
+<html>
+    <body>
+        <h1>Admin!</h1>
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+
+        <h1>Create Admin</h1>
+        <form method="POST" action="/createAdmin">
+            <div>
+                <p>Email</p>
+                <input type="text" name="email">
+            </div>
+            <div>
+                <p>Password</p>
+                <input type="password" name="password">
+            </div>
+            <div>
+                <p>First name</p>
+                <input type="text" name="first_name">
+            </div>
+            <div>
+                <p>Last name</p>
+                <input type="text" name="last_name">
+            </div>
+            <input type="submit">
+            <p><%= flash[:createAdmin] %></p>
+        </form>
+    
+    <a href="/">View All Projects</a>
+        <br/>
+        <br/>
+        <form method="GET" action="/editProjectDetails">
+            <p>Enter Project Id to edit details:</p>
+            <input type="text" name="projectId">
+            <button type="submit" >Edit</button>
+        </form>
+        <p><%= flash[:updateProjectDetails]%></p>
+
+        <form method="GET" action="/deleteProject">
+            <p>Enter Project Id to delete:</p>
+            <input type="text" name="id">
+            <button type="submit" >Delete</button>
+        </form>
+        <p><%= flash[:deleteProjectDetails]%></p>
+
+    </body>
+</html>
+

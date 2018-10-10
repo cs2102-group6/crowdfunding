@@ -82,6 +82,7 @@
                 <th>Target</th>
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>Details</th>
            <!--      <th>Details</th> -->
             </tr>
             
@@ -93,16 +94,22 @@
                 <td><%= row['start_date']%></td>
                 <td><%= row['end_date'] %></td>
                 
+                <form method="GET" action="/viewProjectDetails">
+                <div><input style="display:none" type="text" name="projectId" value=<%= row['id'] %>></div>
+                <td><button type="submit">View</button></td>
+                </form>
+                
+                
                 <% end %>
             </tr>
         </table>
   <br>
   <br>
-  <form method="GET" action="/viewProjectDetails">
+ <!--  <form method="GET" action="/viewProjectDetails">
                     Enter Project Id to view details:
                     <input type="text" name="projectId">
                     <button type="submit" >View</button>
-                    </form>
+                    </form> -->
 
     </body>
 </html>
