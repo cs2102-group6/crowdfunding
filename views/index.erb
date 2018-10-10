@@ -1,14 +1,23 @@
 <html>
     <body>
         <h1>CROWDFUNDING!</h1>
-        <form action="/logout" method="POST">
-            <input type="submit" value="Logout">
-        </form>
+        
 
-        <form action="/createProject" method="POST">
-            <button type="submit" >Create New Project</button>
-        </form>
+        
 
+        <div class="row">
+            <div class="column">
+                <form action="/logout" method="POST">
+                    <input type="submit" value="Logout">
+                </form>
+            </div>
+            <div class="column">
+                <form class = userButtons>
+                    <input type="button" onclick="window.location.href='/createProject'" value="Create New Project" />
+                    <input type="button" onclick="window.location.href='/viewUserProjects'" value="View My Projects" />
+                </form>
+            </div>
+        </div>
         <!---
         This loops through the table and puts the 'id' and 'result' in a list.
         @res is the query result obtained from the get '/' route.
@@ -16,6 +25,18 @@
 
 
     <style>
+    .column {
+        float: left;
+        width: 50%;
+    }
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .userButtons{
+        text-align: right;
+    }
     table {
         width:95%;
     }

@@ -1,0 +1,83 @@
+<html>
+   <body>
+      <h1>CROWDFUNDING!</h1>
+      <form action="/logout" method="POST">
+         <input type="submit" value="Logout">
+      </form>
+      <style>
+         th, td {
+         padding: 15px;
+         text-align: middle;
+         border-bottom: 1px solid #ddd;
+         }
+         th {
+         width: 200px;
+         }
+         }
+      </style>
+      <h1>Update Project</h1>
+      <form method="POST" action="/updateProjectDetails">
+        <% @details.each do |row| %>
+        <% @currentAmt.each do |row2| %>
+          <tr>
+          <td><%= row['id'] %></td>
+          <td><%= row['start_date']%></td>
+          </tr>
+         <div class="row">
+            <div class="column"> 
+               Project Title:
+            </div>
+            <div class="column">
+               <input type="text" name="title" value=<%= row['title'] %>>
+            </div>
+         </div>
+         <div class="row">
+            <div class="column"> 
+               Project Description:
+            </div>
+            <div class="column">
+               <input type="text" name="description" value=<%= row['description'] %>>
+            </div>
+         </div>
+         <div class="row">
+            <div class="column"> 
+               Start Date:
+            </div>
+            <div class="column">
+               <input type="datetime-local" name="start_date" value=<%= row['start_date'] %>>
+            </div>
+         </div>
+         <div class="row">
+            <div class="column"> 
+               End Date:
+            </div>
+            <div class="column">
+               <input type="datetime-local" name="end_date" value=<%= row['end_date'] %>>
+            </div>
+         </div>
+         <div class="row">
+            <div class="column"> 
+               Goal:
+            </div>
+            <div class="column">
+               <input type="number" min="0" step="0.01" name="goal" value=<%= row['goal'] %>>
+            </div>
+         </div>
+         <div>
+            <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
+         </div>
+         <div class="row">
+            <div class="column"> 
+               Status:
+            </div>
+            <div class="column">
+               <input type="text" name="status" value=<%= row['status'] %>>
+            </div>
+         </div>
+         <input type="submit">
+
+         <% end %>
+         <% end %>
+      </form>
+   </body>
+</html>

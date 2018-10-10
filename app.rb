@@ -46,23 +46,64 @@ get '/viewProjectDetails' do
     erb :projectDetails
 end
 
-post '/createProject' do
-    erb :projects
+get '/createProject' do
+    erb :createProject
 end
 
-post '/createSQLProj' do
+# Call SQL to create project in db
+post '/createProject' do
     begin
         create_project
-        flash.next[:createSQLProj] = 'Project successfully created'
+        flash.next[:createProject] = 'Project successfully created'
     rescue
-        flash.next[:createSQLProj] = 'Unable to create project'
+        flash.next[:createProject] = 'Unable to create project'
     end
+    redirect '/createProject'
 end
 
 get '/viewUserProjects' do
     require_authenticated
-    @details = $db.exec("SELECT * FROM projects WHERE creator_email=#{session[:email]}")
-    erb :projectDetails
+    # @details = $db.exec("SELECT * FROM projects WHERE creator_email='#{session[:email]}'")
+    # @currentAmt = $db.exec("SELECT sum(f.amount) as sum, f.project_id FROM funds f WHERE user_email='#{session[:email]}' GROUP BY f.project_id")
+    @details = $db.exec(
+        "SELECT p.id, p.title, sum(f.amount), p.goal, p.start_date, p.end_date
+        FROM projects p
+        LEFT JOIN funds f ON p.id = f.project_id
+        WHERE creator_email='#{session[:email]}'
+        GROUP BY p.id
+        ORDER BY p.id"
+    )
+    erb :viewUserProjects
+end
+
+get '/updateProjectDetails' do
+    session[:projectId] = params[:projectId]
+    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
+    erb :updateProject
+end
+
+post '/deleteProject' do
+    begin
+        # delete_project(params[:projectId])
+        $db.exec("DELETE FROM projects WHERE id=#{params[:projectId]}")
+        flash.next[:deleteProject] = 'Project successfully deleted'
+    rescue
+        flash.next[:deleteProject] = 'Unable to delete project'
+    end
+    redirect '/'
+end
+
+post '/updateProjectDetails' do
+    id = session[:projectId]
+    begin
+        update_project(id)
+        session.delete(:projectId)
+        flash.next[:updateProjectDetails] = 'Project successfully updated'
+    rescue
+        session.delete(:projectId)
+        flash.next[:updateProjectDetails] = 'Unable to update project'
+    end
 end
 
 # Login routes

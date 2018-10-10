@@ -1,0 +1,92 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <style>
+        h2 {
+            display: block;
+            font-size: 1.5em;
+            margin-top: 0.83em;
+            margin-bottom: 0.83em;
+            margin-left: 0;
+            margin-right: 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .column {
+            float: left;
+            width: 15%;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        </style>
+
+        <h1>CROWDFUNDING!</h1>
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+
+        <h1>Create Project</h1>
+        <form method="POST" action="/createProject">
+            <div class="row">
+                <div class="column"> 
+                    Project Title:
+                </div>
+                <div class="column">
+                    <input type="text" name="title">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column"> 
+                    Project Description:
+                </div>
+                <div class="column">
+                    <input type="text" name="description">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column"> 
+                    Start Date:
+                </div>
+                <div class="column">
+                    <input type="datetime-local" name="start_date">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column"> 
+                    End Date:
+                </div>
+                <div class="column">
+                    <input type="datetime-local" name="end_date">
+                </div>
+            </div>
+            <div class="row">
+                <div class="column"> 
+                    Goal:
+                </div>
+                <div class="column">
+                    <input type="number" min="0" step="0.01" name="goal">
+                </div>
+            </div>
+            <div>
+                <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
+            </div>
+            <div class="row">
+                <div class="column"> 
+                    Status:
+                </div>
+                <div class="column">
+                    <select name="status">
+                        <option value="ongoing">Ongoing</option>
+                        <option value="closed">Closed</option>
+                    </select>
+                </div>
+            </div>
+            <input type="submit">
+            <p><%= flash[:createProject] %></p>
+        </form>
+    </body>
+</html>

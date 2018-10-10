@@ -3,9 +3,14 @@ GEM
   specs:
     bcrypt (3.1.12)
     bcrypt (3.1.12-x64-mingw32)
+    coderay (1.1.2)
+    method_source (0.9.0)
     mustermann (1.0.3)
     pg (1.1.3)
     pg (1.1.3-x64-mingw32)
+    pry (0.11.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
     rack (2.0.5)
     rack-protection (2.0.4)
       rack
@@ -25,6 +30,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   pg
+  pry
   sinatra
   sinatra-flash
 
