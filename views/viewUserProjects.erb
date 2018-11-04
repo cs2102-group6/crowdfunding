@@ -48,6 +48,8 @@
             <th>Target</th>
             <th>Start Date</th>
             <th>End Date</th>
+            <th>Update</th>
+            <th>Delete</th>
          </tr>
          <% @details.each do |row| %>
          <tr>
@@ -61,18 +63,19 @@
             <td>$<%= row['goal']%></td>
             <td><%= row['start_date']%></td>
             <td><%= row['end_date'] %></td>
+
+            <form method="GET" action="/updateProjectDetails">
+                <div><input style="display:none" type="text" name="projectId" value=<%= row['id'] %>></div>
+                <td><button type="submit">Update</button></td>
+            </form>
+
+            <form method="POST" action="/deleteProject">
+                <div><input style="display:none" type="text" name="projectId" value=<%= row['id'] %>></div>
+                <td><button type="submit" >Delete</button></td>
+            </form>
+
             <% end %>
          </tr>
       </table>
-      <form method="GET" action="/updateProjectDetails">
-         Enter Project Id to update:
-         <input type="text" name="projectId">
-         <button type="submit" >View</button>
-      </form>
-      <form method="POST" action="/deleteProject">
-         Enter Project Id to delete:
-         <input type="text" name="projectId">
-         <button type="submit" >Delete</button>
-      </form>
    </body>
 </html>

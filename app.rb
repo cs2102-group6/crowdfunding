@@ -105,7 +105,7 @@ post '/deleteProject' do
     rescue
         flash.next[:deleteProject] = 'Unable to delete project'
     end
-    redirect '/'
+    redirect '/viewUserProjects'
 end
 
 post '/updateProjectDetails' do
