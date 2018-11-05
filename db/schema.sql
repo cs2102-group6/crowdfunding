@@ -7,12 +7,13 @@ CREATE TABLE users (
 );
 
 CREATE TABLE projects (
-	id SERIAL PRIMARY KEY,
+	project_id SERIAL PRIMARY KEY,
 	title VARCHAR(256) NOT NULL,
 	description VARCHAR(1024),
 	start_date TIMESTAMP NOT NULL,
 	end_date TIMESTAMP NOT NULL CHECK (end_date > start_date),
 	goal NUMERIC NOT NULL CHECK (goal > 0),
+    current_funding NUMERIC NOT NULL CHECK (current_funding >= 0) DEFAULT 0,
     creator_email VARCHAR(256),
     status VARCHAR(16) CHECK (status='ongoing' OR status='closed'),
     FOREIGN KEY (creator_email)
@@ -26,12 +27,14 @@ CREATE TABLE keywords (
 );
 
 CREATE TABLE funds (
+    fund_id SERIAL,
+    date_funded TIMESTAMP NOT NULL DEFAULT NOW(),
 	amount NUMERIC(16, 2) NOT NULL CHECK (amount > 0),
 	project_id INT NOT NULL,
 	user_email VARCHAR(256) NOT NULL,
-	PRIMARY KEY (project_id, user_email),
+	PRIMARY KEY (fund_id),
 	FOREIGN KEY (project_id)
-		REFERENCES projects(id)
+		REFERENCES projects(project_id)
         ON UPDATE CASCADE
 		ON DELETE CASCADE,
 	FOREIGN KEY (user_email)
@@ -49,7 +52,8 @@ CREATE TABLE has_keyword (
         ON UPDATE CASCADE
         ON DELETE CASCADE,
 	FOREIGN KEY (project_id)
-		REFERENCES projects(id)
+		REFERENCES projects(project_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
