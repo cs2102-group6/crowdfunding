@@ -24,7 +24,7 @@
 
         <tr>
             <th>Id</th>
-            <td ><a name="projectId"><%= row['id'] %></a></td>
+            <td ><a name="projectId"><%= row['project_id'] %></a></td>
 
         </tr>
         <tr>
@@ -77,7 +77,7 @@
                 <br>
 
                 <% @details.each do |row| %>
-                <div><input style="display:none" type="number" name="project_Id" value=<%= row['id'] %>></div>
+                <div><input style="display:none" type="number" name="project_Id" value=<%= row['project_id'] %>></div>
                 <% end %>
 
                 <div><input style="display:none" type="text" name="email" value=<%=session[:email] %>></div>

@@ -23,7 +23,7 @@ module Projects
         binding.pry
         $db.exec(
             "DELETE FROM projects
-            WHERE id=#{id}"
+            WHERE project_id=#{id}"
         ) 
     end
 
@@ -45,7 +45,7 @@ module Projects
             end_date='#{params[:end_date]}',
             goal=#{params[:goal]},
             status='#{params[:status]}'
-            WHERE id=#{id}"
+            WHERE project_id=#{id}"
         ) 
     end
 
@@ -67,7 +67,7 @@ module Projects
             end_date='#{params[:end_date]}',
             goal=#{params[:goal]},
             status='#{params[:status]}'
-            WHERE id=#{params[:id]}"
+            WHERE project_id=#{params[:id]}"
         ) 
     end
     

@@ -53,7 +53,7 @@
          </tr>
          <% @details.each do |row| %>
          <tr>
-            <td><%= row['id'] %></td>
+            <td><%= row['project_id'] %></td>
             <td> <%= row['title']%></td>
             <% if row['sum'] == "" %>
             <td>$0</td>
@@ -65,12 +65,12 @@
             <td><%= row['end_date'] %></td>
 
             <form method="GET" action="/updateProjectDetails">
-                <div><input style="display:none" type="text" name="projectId" value=<%= row['id'] %>></div>
+                <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
                 <td><button type="submit">Update</button></td>
             </form>
 
             <form method="POST" action="/deleteProject">
-                <div><input style="display:none" type="text" name="projectId" value=<%= row['id'] %>></div>
+                <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
                 <td><button type="submit" >Delete</button></td>
             </form>
 

@@ -5,7 +5,7 @@ module Funds
             user_email= session[:email]
             
         $db.exec(
-            "INSERT INTO funds
+            "INSERT INTO funds (amount, project_id, user_email)
              VALUES (#{amount}, #{project_id},'#{user_email}');"
         )
     end

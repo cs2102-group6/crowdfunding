@@ -42,9 +42,9 @@ end
 
 get '/viewProjectDetails' do
     require_authenticated
-    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
-    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
-    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
+    @details = $db.exec("SELECT * FROM projects p WHERE p.project_id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds f WHERE f.project_id=#{params[:projectId]}")
+    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.project_id=#{params[:projectId]} AND d.email = f.creator_email")
     erb :projectDetails
 end
 
@@ -80,27 +80,27 @@ get '/viewUserProjects' do
     # @details = $db.exec("SELECT * FROM projects WHERE creator_email='#{session[:email]}'")
     # @currentAmt = $db.exec("SELECT sum(f.amount) as sum, f.project_id FROM funds f WHERE user_email='#{session[:email]}' GROUP BY f.project_id")
     @details = $db.exec(
-        "SELECT p.id, p.title, sum(f.amount), p.goal, p.start_date, p.end_date
+        "SELECT p.project_id, p.title, sum(f.amount), p.goal, p.start_date, p.end_date
         FROM projects p
-        LEFT JOIN funds f ON p.id = f.project_id
+        LEFT JOIN funds f ON p.project_id = f.project_id
         WHERE creator_email='#{session[:email]}'
-        GROUP BY p.id
-        ORDER BY p.id"
+        GROUP BY p.project_id
+        ORDER BY p.project_id"
     )
     erb :viewUserProjects
 end
 
 get '/updateProjectDetails' do
     session[:projectId] = params[:projectId]
-    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
-    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
+    @details = $db.exec("SELECT * FROM projects p WHERE p.project_id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds f WHERE f.project_id=#{params[:projectId]}")
     erb :updateProject
 end
 
 post '/deleteProject' do
     begin
         # delete_project(params[:projectId])
-        $db.exec("DELETE FROM projects WHERE id=#{params[:projectId]}")
+        $db.exec("DELETE FROM projects p WHERE p.project_id=#{params[:projectId]}")
         flash.next[:deleteProject] = 'Project successfully deleted'
     rescue
         flash.next[:deleteProject] = 'Unable to delete project'
@@ -202,9 +202,9 @@ end
 
 get '/editProjectDetails' do
     require_admin_authenticated
-    @details = $db.exec("SELECT * FROM projects WHERE id=#{params[:projectId]}")
-    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds WHERE project_id=#{params[:projectId]}")
-    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.id=#{params[:projectId]} AND d.email = f.creator_email")
+    @details = $db.exec("SELECT * FROM projects p WHERE p.project_id=#{params[:projectId]}")
+    @currentAmt = $db.exec("SELECT SUM(amount) FROM funds f WHERE f.project_id=#{params[:projectId]}")
+    @user = $db.exec("SELECT * FROM users d, projects f WHERE f.project_id=#{params[:projectId]} AND d.email = f.creator_email")
     erb :editProjectDetails
 end
 

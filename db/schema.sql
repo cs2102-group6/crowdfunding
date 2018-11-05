@@ -27,12 +27,11 @@ CREATE TABLE keywords (
 );
 
 CREATE TABLE funds (
-    fund_id SERIAL,
+    fund_id SERIAL PRIMARY KEY,
     date_funded TIMESTAMP NOT NULL DEFAULT NOW(),
 	amount NUMERIC(16, 2) NOT NULL CHECK (amount > 0),
 	project_id INT NOT NULL,
 	user_email VARCHAR(256) NOT NULL,
-	PRIMARY KEY (fund_id),
 	FOREIGN KEY (project_id)
 		REFERENCES projects(project_id)
         ON UPDATE CASCADE
