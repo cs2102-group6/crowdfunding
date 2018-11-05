@@ -74,6 +74,16 @@
     p {text-align:center;}
     td {text-align:center;}
     </style>
+        <form method='GET'>
+            <input type='text' name='search' required>
+            <input type='submit' value='Search'>
+        </form>
+        <form method='GET' action='/'>
+            <input type='submit' value='Clear search'>
+        </form>
+        <% if params[:search] %>
+            <p>Searching for: <b><%= params[:search] %></b></p>
+        <% end %>
 
         <table id = "t01" align ="center" style="width:100%">
             <tr>
@@ -84,8 +94,7 @@
                 <th>End Date</th>
                 <th>Details</th>
            <!--      <th>Details</th> -->
-            </tr>
-            
+            </tr> 
             <% @res.each do |row| %>
             <tr>
                 <td><%= row['project_id'] %></td>

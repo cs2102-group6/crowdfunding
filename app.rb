@@ -33,10 +33,16 @@ end
 get '/' do
     # Require user to be authenticated to access the homepage
     require_authenticated # Method defined in ./helpers/utils.rb
+    
+    searchStr = params[:search]
 
-    # Fetch ALL the projects
-    # Check ./views/index.erb to see how to display the result
-    @res = $db.exec("SELECT * FROM projects") # Variables with @ can be accessed from the erb
+    if searchStr.nil? || searchStr.empty?
+        @res = $db.exec("SELECT * FROM projects")
+    else
+        @res = $db.exec("SELECT * FROM projects p
+                        WHERE p.title LIKE '#{searchStr}' 
+                        OR p.description LIKE '#{searchStr}'")
+    end
     erb :index
 end
 

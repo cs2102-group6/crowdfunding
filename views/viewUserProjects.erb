@@ -1,81 +1,84 @@
 <html>
-   <body>
-      <h1>CROWDFUNDING!</h1>
-      <form action="/logout" method="POST">
-         <input type="submit" value="Logout">
-      </form>
-      <style>
-         table {
-         width:95%;
-         }
+    <body>
+        <h1>CROWDFUNDING!</h1>
+        <form action="/logout" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+        <style>
+table {
+    width:95%;
+}
          table, th, td {
-         border: 1px solid black;
-         border-collapse: collapse;
+             border: 1px solid black;
+             border-collapse: collapse;
          }
          th, td {
-         padding: 5px;
-         text-align: left;
+             padding: 5px;
+             text-align: left;
          }
          table#t01 tr:nth-child(even) {
-         background-color: #eee;
+             background-color: #eee;
          }
          table#t01 tr:nth-child(odd) {
-         background-color:#fff;
+             background-color:#fff;
          }
          table#t01 th {
-         background-color: black;
-         color: white;
-         text-align:center;
+             background-color: black;
+             color: white;
+             text-align:center;
          }
          h2 {
-         display: block;
-         font-size: 1.5em;
-         margin-top: 0.83em;
-         margin-bottom: 0.83em;
-         margin-left: 0;
-         margin-right: 0;
-         font-weight: bold;
-         text-align: center;
+             display: block;
+             font-size: 1.5em;
+             margin-top: 0.83em;
+             margin-bottom: 0.83em;
+             margin-left: 0;
+             margin-right: 0;
+             font-weight: bold;
+             text-align: center;
          }
          p {text-align:center;}
          td {text-align:center;}
-      </style>
-      <table id = "t01" align ="center" style="width:100%">
-         <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Current Funding</th>
-            <th>Target</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Update</th>
-            <th>Delete</th>
-         </tr>
-         <% @details.each do |row| %>
-         <tr>
-            <td><%= row['project_id'] %></td>
-            <td> <%= row['title']%></td>
-            <% if row['sum'] == "" %>
-            <td>$0</td>
-            <% else %>
-            <td>$<%= row['sum']%></td>
+        </style>
+        <form method='GET'>
+            <input type='text' name='searchStr' placeholder='Search'>
+        </form>
+        <table id = "t01" align ="center" style="width:100%">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Current Funding</th>
+                <th>Target</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            <% @details.each do |row| %>
+                <tr>
+                    <td><%= row['project_id'] %></td>
+                    <td> <%= row['title']%></td>
+                    <% if row['sum'] == "" %>
+                        <td>$0</td>
+                    <% else %>
+                        <td>$<%= row['sum']%></td>
+                    <% end %>
+                    <td>$<%= row['goal']%></td>
+                    <td><%= row['start_date']%></td>
+                    <td><%= row['end_date'] %></td>
+
+                    <form method="GET" action="/updateProjectDetails">
+                        <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
+                        <td><button type="submit">Update</button></td>
+                    </form>
+
+                    <form method="POST" action="/deleteProject">
+                        <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
+                        <td><button type="submit" >Delete</button></td>
+                    </form>
+
+                </tr>
             <% end %>
-            <td>$<%= row['goal']%></td>
-            <td><%= row['start_date']%></td>
-            <td><%= row['end_date'] %></td>
-
-            <form method="GET" action="/updateProjectDetails">
-                <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
-                <td><button type="submit">Update</button></td>
-            </form>
-
-            <form method="POST" action="/deleteProject">
-                <div><input style="display:none" type="text" name="projectId" value=<%= row['project_id'] %>></div>
-                <td><button type="submit" >Delete</button></td>
-            </form>
-
-            <% end %>
-         </tr>
-      </table>
-   </body>
+        </table>
+    </body>
 </html>
