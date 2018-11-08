@@ -22,10 +22,6 @@ CREATE TABLE projects (
         ON DELETE CASCADE
 );
 
-CREATE TABLE keywords (
-	word VARCHAR(64) PRIMARY KEY
-);
-
 CREATE TABLE funds (
     fund_id SERIAL PRIMARY KEY,
     date_funded TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -41,18 +37,3 @@ CREATE TABLE funds (
 		ON UPDATE CASCADE
         ON DELETE CASCADE
 );
-
-CREATE TABLE has_keyword (
-	keyword VARCHAR(64) NOT NULL,
-	project_id INT NOT NULL,
-	PRIMARY KEY (keyword, project_id),
-	FOREIGN KEY (keyword)
-		REFERENCES keywords(word)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-	FOREIGN KEY (project_id)
-		REFERENCES projects(project_id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
-);
-
