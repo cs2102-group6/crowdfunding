@@ -1,49 +1,66 @@
 <html>
+    <%= erb :_bootstrap %>
     <body>
-        <h1>Admin!</h1>
-        <form action="/logout" method="POST">
-            <input type="submit" value="Logout">
-        </form>
+        <div class="container">
+            <div class="row justify-content-center mt-4 mb-4 text-center">
+                <h1>Admin</h1>
+            </div>
+            <div class="row justify-content-center text-center">
 
-        <h1>Create Admin</h1>
-        <form method="POST" action="/createAdmin">
-            <div>
-                <p>Email</p>
-                <input type="text" name="email">
-            </div>
-            <div>
-                <p>Password</p>
-                <input type="password" name="password">
-            </div>
-            <div>
-                <p>First name</p>
-                <input type="text" name="first_name">
-            </div>
-            <div>
-                <p>Last name</p>
-                <input type="text" name="last_name">
-            </div>
-            <input type="submit">
-            <p><%= flash[:createAdmin] %></p>
-        </form>
-    
-    <a href="/">View All Projects</a>
-        <br/>
-        <br/>
-        <form method="GET" action="/editProjectDetails">
-            <p>Enter Project Id to edit details:</p>
-            <input type="text" name="projectId">
-            <button type="submit" >Edit</button>
-        </form>
-        <p><%= flash[:updateProjectDetails]%></p>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Create Admin</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="/createAdmin">
+                                <div>
+                                    <p>Email</p>
+                                    <input type="text" name="email">
+                                </div>
+                                <div>
+                                    <p>Password</p>
+                                    <input type="password" name="password">
+                                </div>
+                                <div>
+                                    <p>First name</p>
+                                    <input type="text" name="first_name">
+                                </div>
+                                <div>
+                                    <p>Last name</p>
+                                    <input type="text" name="last_name">
+                                </div>
+                                <input class="btn btn-primary mt-2" type="submit">
+                                <p><%= flash[:createAdmin] %></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>Manage projects</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="GET" action="/editProjectDetails">
+                                <p>Enter Project Id to edit details:</p>
+                                <input type="text" name="projectId">
+                                <button type="submit" >Edit</button>
+                            </form>
+                            <p class="text-primary"><%= flash[:updateProjectDetails]%></p>
 
-        <form method="GET" action="/deleteProject">
-            <p>Enter Project Id to delete:</p>
-            <input type="text" name="id">
-            <button type="submit" >Delete</button>
-        </form>
-        <p><%= flash[:deleteProjectDetails]%></p>
-
+                            <form method="GET" action="/deleteProject">
+                                <p>Enter Project Id to delete:</p>
+                                <input type="text" name="id">
+                                <button type="submit" >Delete</button>
+                            </form>
+                            <p class="text-primary"><%= flash[:deleteProjectDetails]%></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
 

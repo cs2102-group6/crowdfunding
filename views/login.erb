@@ -1,40 +1,61 @@
 <html>
     <head>
+        <%= erb :_bootstrap %>
     </head>
     <body>
-        <h1>Login</h1>
-        <form method="POST" action="/login">
-            <div>
-                <p>Email</p>
-                <input type="text" name="email">
+        <div class="mt-4 container">
+            <div class="row justify-content-center">
+                <div class="col-6 text-center">
+                    <div class="card h-75">
+                        <div class="card-header">
+                            <h2>Login</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="/login">
+                                <div>
+                                    <p>Email</p>
+                                    <input type="text" name="email">
+                                </div>
+                                <div>
+                                    <p>Password</p>
+                                    <input type="password" name="password">
+                                </div>
+                                <input class="btn btn-success mt-2" type="submit">
+                                <p><%= flash[:login] %></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 text-center">
+                    <div class="card h-75">
+                        <div class="card-header">
+                            <h2>Register</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST" action="/register">
+                                <div>
+                                    <p>Email</p>
+                                    <input type="text" name="email">
+                                </div>
+                                <div>
+                                    <p>Password</p>
+                                    <input type="password" name="password">
+                                </div>
+                                <div>
+                                    <p>First name</p>
+                                    <input type="text" name="first_name">
+                                </div>
+                                <div>
+                                    <p>Last name</p>
+                                    <input type="text" name="last_name">
+                                </div>
+                                <input class="btn btn-success mt-2" type="submit">
+                                <p><%= flash[:register] %></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                <p>Password</p>
-                <input type="password" name="password">
-            </div>
-            <input type="submit">
-            <p><%= flash[:login] %></p>
-        </form>
-        <h1>Register</h1>
-        <form method="POST" action="/register">
-            <div>
-                <p>Email</p>
-                <input type="text" name="email">
-            </div>
-            <div>
-                <p>Password</p>
-                <input type="password" name="password">
-            </div>
-            <div>
-                <p>First name</p>
-                <input type="text" name="first_name">
-            </div>
-            <div>
-                <p>Last name</p>
-                <input type="text" name="last_name">
-            </div>
-            <input type="submit">
-            <p><%= flash[:register] %></p>
-        </form>
+        </div>
     </body>
 </html>

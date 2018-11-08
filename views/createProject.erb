@@ -1,89 +1,40 @@
 <html>
-    <head>
-    </head>
+    <%= erb :_bootstrap %>
     <body>
-        <style>
-        h2 {
-            display: block;
-            font-size: 1.5em;
-            margin-top: 0.83em;
-            margin-bottom: 0.83em;
-            margin-left: 0;
-            margin-right: 0;
-            font-weight: bold;
-            text-align: center;
-        }
-        .column {
-            float: left;
-            width: 15%;
-        }
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        </style>
-
-        <h1>CROWDFUNDING!</h1>
-        <form action="/logout" method="POST">
-            <input type="submit" value="Logout">
-        </form>
-
-        <h1>Create Project</h1>
-        <form method="POST" action="/createProject">
-            <div class="row">
-                <div class="column"> 
-                    Project Title:
-                </div>
-                <div class="column">
-                    <input type="text" name="title">
-                </div>
+        <div class="container">
+            <div class="text-center mt-4">
+                <h2>Create Project</h2>
             </div>
             <div class="row">
-                <div class="column"> 
-                    Project Description:
-                </div>
-                <div class="column">
-                    <input type="text" name="description">
-                </div>
-            </div>
-            <div class="row">
-                <div class="column"> 
-                    Start Date:
-                </div>
-                <div class="column">
-                    <input type="datetime-local" name="start_date">
-                </div>
-            </div>
-            <div class="row">
-                <div class="column"> 
-                    End Date:
-                </div>
-                <div class="column">
-                    <input type="datetime-local" name="end_date">
-                </div>
-            </div>
-            <div class="row">
-                <div class="column"> 
-                    Goal:
-                </div>
-                <div class="column">
-                    <input type="number" min="0" step="0.01" name="goal">
+                <div class="col">
+                    <form method="POST" action="/createProject">
+                        <div class="form-group"> 
+                            <label>Project Title</label>
+                            <input class="form-control" type="text" name="title">
+                        </div>
+                        <div class="form-group"> 
+                            <label>Project Description</label>
+                            <input class="form-control" type="text" name="description">
+                        </div>
+                        <div class="form-group"> 
+                            <label>Start Date</label>
+                            <input class="form-control" type="datetime-local" name="start_date">
+                        </div>
+                        <div class="form-group"> 
+                            <label>End Date</label>
+                            <input class="form-control" type="datetime-local" name="end_date">
+                        </div>
+                        <div class="form-group"> 
+                            <label>Goal</label>
+                            <input class="form-control" type="number" min="0" step="0.01" name="goal">
+                        </div>
+                        <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
+                        <input style="display:none" type="text" name="status" value="ongoing">
+                        <input class="btn btn-success" type="submit">
+                        <p><%= flash[:createProject] %></p>
+                    </form>
                 </div>
             </div>
-            <div>
-                <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
-            </div>
-            <div class="row">
-                <div class="column"> 
-                    Status:
-                </div>
-                <div class="column">
-                    <input type="text" name="status">
-                </div>
-            </div>
-            <input type="submit">
-            <p><%= flash[:createProject] %></p>
-        </form>
+        </div>
     </body>
 </html>

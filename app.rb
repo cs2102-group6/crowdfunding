@@ -40,8 +40,8 @@ get '/' do
         @res = $db.exec("SELECT * FROM projects")
     else
         @res = $db.exec("SELECT * FROM projects p
-                        WHERE p.title LIKE '#{searchStr}' 
-                        OR p.description LIKE '#{searchStr}'")
+                        WHERE p.title LIKE '%#{searchStr}%' 
+                        OR p.description LIKE '%#{searchStr}%'")
     end
     erb :index
 end
@@ -85,7 +85,7 @@ get '/viewUserProjects' do
     require_authenticated
     # @details = $db.exec("SELECT * FROM projects WHERE creator_email='#{session[:email]}'")
     # @currentAmt = $db.exec("SELECT sum(f.amount) as sum, f.project_id FROM funds f WHERE user_email='#{session[:email]}' GROUP BY f.project_id")
-    @details = $db.exec(
+    @res = $db.exec(
         "SELECT p.project_id, p.title, sum(f.amount), p.goal, p.start_date, p.end_date
         FROM projects p
         LEFT JOIN funds f ON p.project_id = f.project_id
@@ -93,7 +93,7 @@ get '/viewUserProjects' do
         GROUP BY p.project_id
         ORDER BY p.project_id"
     )
-    erb :viewUserProjects
+    erb :index
 end
 
 get '/updateProjectDetails' do
@@ -218,7 +218,7 @@ post '/adminUpdatenProjectDetails' do
     require_admin_authenticated
     begin
         admin_update_project
-        flash.next[:updateProjectDetails] = 'Project details successfully update'
+        flash.next[:updateProjectDetails] = 'Project details successfully updated'
     rescue
         flash.next[:updateProjectDetails] = 'An error occured!'
     end

@@ -1,94 +1,67 @@
-        <html>
-        <body>
-            <h1>CROWDFUNDING!</h1>
-            <form action="/logout" method="POST">
-                <input type="submit" value="Logout">
-            </form>
+<html>
+    <%= erb :_bootstrap %>
+    <body>
+        <div class="container">
+            <div class="mt-4 row text-center">
+                <div class="col">
+                    <h2><%= @details[0]['title'] %></h2>
+                </div>
+            </div>
 
-            <style>
-            th, td {
-                padding: 15px;
-                text-align: middle;
-                border-bottom: 1px solid #ddd;
-            }
-            th {
-                width: 200px;
-            }
-        }
-    </style>
+            <div class="row">
+                <table class="table" id = "t01" align ="center" style="width:100%">
+                    <% @details.each do |row| %>
+                        <% @currentAmt.each do |row2| %>
+                            <% @user.each do |row3| %>
+                                <tr>
+                                    <th>Description</th>
+                                    <td><%= row['description'] %></td>
 
-    <table id = "t01" align ="center" style="width:100%">
-        <% @details.each do |row| %>
-        <% @currentAmt.each do |row2| %>
-        <% @user.each do |row3| %>
+                                </tr>
+                                <tr>
+                                    <th>Current Amount</th>
+                                    <td>$<%= row2['sum'] %></td>
+                                </tr>
+                                <tr>
+                                    <th>Target</th>
+                                    <td>$<%= row['goal'] %></td>
+                                </tr>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <td><%= row['start_date'] %></td>
+                                </tr>
+                                <tr>
+                                    <th>End Date</th>
+                                    <td><%= row['end_date'] %></td>
+                                </tr>
+                                <tr>
+                                    <th>Created by</th>
+                                    <td><%= row3['first_name'] %> <%= row3['last_name'] %></td>
+                                </tr>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </table>
+            </div>
+            <br>
+            <br>
 
-        <tr>
-            <th>Id</th>
-            <td ><a name="projectId"><%= row['project_id'] %></a></td>
-
-        </tr>
-        <tr>
-            <th>Title</th>
-            <td><%= row['title'] %></td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td><%= row['description'] %></td>
-
-        </tr>
-        <tr>
-            <th>Current Amount</th>
-            <td>$<%= row2['sum'] %></td>
-
-        </tr>
-        <tr>
-            <th>Target</th>
-            <td>$<%= row['goal'] %></td>
-
-        </tr>
-        <tr>
-            <th>Start Date</th>
-            <td><%= row['start_date'] %></td>
-
-        </tr>
-        <tr>
-            <th>End Date</th>
-            <td><%= row['end_date'] %></td>
-        </tr>
-
-        <tr>
-            <th>Created by</th>
-            <td><%= row3['first_name'] %> <%= row3['last_name'] %></td>
-        </tr>
-
-        <% end %>
-        <% end %>
-        <% end %>
-    </table>
-    <br>
-    <br>
-    <div style="text-align:right; width:100%; padding:0;">
-
-        <form method="POST" action="/contributeFunds">
-
-            <h4>Enter Amount To Contribute: 
-                <input type="number" name="amount" placeholder="$">
-                <br>
-                <br>
-
-                <% @details.each do |row| %>
-                <div><input style="display:none" type="number" name="project_Id" value=<%= row['project_id'] %>></div>
-                <% end %>
-
-                <div><input style="display:none" type="text" name="email" value=<%=session[:email] %>></div>
-
-                <input type="submit">
-                <p><%= flash[:contributeFunds] %></p>
-            </h4>
-        </form>
-    </div>
-
+            <div class="row">
+                <form class="form-inline" method="POST" action="/contributeFunds">
+                    <label>Enter Amount To Contribute:&nbsp</label>
+                    <input class="form-control"type="number" name="amount" placeholder="$">
+                    <br>
+                    <br>
+                    <% @details.each do |row| %>
+                        <input style="display:none" type="number" name="project_Id" value=<%= row['project_id'] %>>
+                    <% end %>
+                    <input style="display:none" type="text" name="email" value=<%=session[:email] %>>
+                    <input class="form-control btn btn-success" type="submit">
+                </form>
+            </div>
+            <div class="text-primary"><%= flash[:contributeFunds] %></div>
+        </div>
 
     </body>
-    </html>
+</html>
 
