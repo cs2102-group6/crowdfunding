@@ -40,5 +40,13 @@ module Users
              VALUES (#{email}, #{password}, #{first_name}, #{last_name}, #{is_admin});"
         )
     end
+
+    def change_password
+        $db.exec(
+            "UPDATE users SET 
+            password=#{params[:new_password]}
+            WHERE email='#{session[:email]}'"
+        ) 
+    end
 end
 

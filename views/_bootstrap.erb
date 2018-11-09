@@ -18,8 +18,13 @@
           <a class="nav-link" href="/createProject">Create Project</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="/changePassword">Change Password</a>
+        </li>
+        <% if session[:isadmin] == 't' %>
+        <li class="nav-item">
           <a class="nav-link" href="/admin">Admin</a>
         </li>
+        <% end %>
       </ul>
       
       <form class="form-inline my-2" action="/logout" method="POST">

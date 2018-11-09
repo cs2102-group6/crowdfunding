@@ -37,3 +37,13 @@ CREATE TABLE funds (
 		ON UPDATE CASCADE
         ON DELETE CASCADE
 );
+
+CREATE TABLE password_log (
+	email VARCHAR(256) NOT NULL,
+	password VARCHAR(256) NOT NULL,
+	PRIMARY KEY(email, password),
+	FOREIGN KEY(email) 
+		REFERENCES users(email)
+		ON UPDATE CASCADE
+        ON DELETE CASCADE
+);

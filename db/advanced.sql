@@ -1,14 +1,14 @@
-CREATE OR REPLACE FUNCTION same_password()
+CREATE OR REPLACE FUNCTION change_password()
 RETURNS TRIGGER AS $$
 BEGIN
-    RAISE EXCEPTION 'Your new password must be different from the old password';
-    RETURN NULL;
+	IF NOT EXISTS ( SELECT * FROM password_log WHERE email = new.email AND password = new.password)
+	THEN INSERT INTO password_log VALUES(new.email, new.password);
+	END IF;
+        RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER same_password_trigger
+CREATE TRIGGER change_password_trigger
     BEFORE UPDATE ON USERS
     FOR EACH ROW
-    WHEN (old.password = new.password)
-    EXECUTE PROCEDURE same_password();
-
+    EXECUTE PROCEDURE change_password();

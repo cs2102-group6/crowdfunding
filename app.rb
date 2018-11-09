@@ -152,6 +152,7 @@ post '/login' do
         stored_hash = res[0]['password']
 
         restored_password = BCrypt::Password.new(stored_hash)
+        
         if restored_password == input_password
             session[:email] = email
             session[:isadmin] = res[0]['is_admin']
@@ -237,4 +238,30 @@ get '/deleteProject' do
 end
 #End of admin routes
 
+get '/changePassword' do
+    erb :changePassword
+end
 
+post '/changePassword' do
+    #  binding.pry
+    # input_password = params[:old_password]
+    # process_input(params)
+    
+    begin
+        # chk_password = $db.exec("SELECT u.password FROM users u WHERE email='#{session[:email]}'")
+        # stored_hash = chk_password[0]['password']
+
+        # restored_password = BCrypt::Password.create(stored_hash)
+        
+        # if input_password == restored_password
+            change_password
+            flash.next[:changePassword] = 'Password change successfully'
+        # else
+        #     flash.next[:changePassword] = 'Wrong old password'
+        # end
+    rescue
+        flash.next[:changePassword] = 'An error occured!'
+    end
+    redirect '/changePassword'
+    
+end
