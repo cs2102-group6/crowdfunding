@@ -37,6 +37,13 @@ module Projects
         # id=id
 
         # binding.pry
+
+        if params[:end_date] > Time.now.strftime("%Y-%m-%d")
+            params[:status] = "ongoing"
+        else
+            params[:status] = "closed"
+        end
+
         $db.exec(
             "UPDATE projects SET 
             title='#{params[:title]}',
