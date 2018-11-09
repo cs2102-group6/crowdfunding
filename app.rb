@@ -85,7 +85,7 @@ get '/viewUserProjects' do
     require_authenticated
     # @details = $db.exec("SELECT * FROM projects WHERE creator_email='#{session[:email]}'")
     # @currentAmt = $db.exec("SELECT sum(f.amount) as sum, f.project_id FROM funds f WHERE user_email='#{session[:email]}' GROUP BY f.project_id")
-    @res = $db.exec(
+    @details = $db.exec(
         "SELECT p.project_id, p.title, sum(f.amount), p.goal, p.start_date, p.end_date
         FROM projects p
         LEFT JOIN funds f ON p.project_id = f.project_id
@@ -93,7 +93,7 @@ get '/viewUserProjects' do
         GROUP BY p.project_id
         ORDER BY p.project_id"
     )
-    erb :index
+    erb :viewUserProjects
 end
 
 get '/updateProjectDetails' do
