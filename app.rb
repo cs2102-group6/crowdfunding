@@ -245,7 +245,8 @@ end
 post '/changePassword' do
     #  binding.pry
     # input_password = params[:old_password]
-    # process_input(params)
+    params[:new_password] = BCrypt::Password.create(params[:new_password]).to_s
+    process_input(params)
     
     begin
         # chk_password = $db.exec("SELECT u.password FROM users u WHERE email='#{session[:email]}'")

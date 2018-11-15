@@ -1,3 +1,4 @@
+
 module Users
     def create_user
         # The params hash contains information in the post request
@@ -42,9 +43,11 @@ module Users
     end
 
     def change_password
+        password = params[:new_password]
+
         $db.exec(
             "UPDATE users SET 
-            password=#{params[:new_password]}
+            password= #{password}
             WHERE email='#{session[:email]}'"
         ) 
     end
